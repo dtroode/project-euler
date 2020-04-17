@@ -1,20 +1,21 @@
 from math import sqrt
 from itertools import count, islice
 
-
 def is_prime(number):
+    if number != 2 and number % 2 == 0:
+        return False
     return (number > 1 and
-            all(number % i for i in islice(count(2), int(sqrt(number)))))
+            all(number % i for i in islice(count(2), int(sqrt(number)-1))))
 
 
 def largest_prime_factor(number):
-    primes_factors = []
-    for i in range(1, int(sqrt(number)), 2):
-        if is_prime(i) and number % i == 0:
-            primes_factors.append(i)
-        if is_prime(int(number / i)) and number % i == 0:
-            k = int(number / i)
-            primes_factors.append(k)
+    primes_factors_below_square = [x for x in range(1, int(sqrt(number)), 2)\
+                                if (is_prime(x) and number % x == 0)]
+    primes_factors_above_square = [int(number / x)\
+                                for x in range(1, int(sqrt(number)), 2)\
+                                if (is_prime(int(number / x))\
+                                    and number % x == 0)]
+    primes_factors = primes_factors_below_square + primes_factors_above_square
     max_prime_factor = max(primes_factors)
     return(max_prime_factor)
 
