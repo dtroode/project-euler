@@ -1,3 +1,20 @@
+# Largest product in a grid
+# Project Euler. No. 11
+# 
+# What is the greatest product of four adjacent numbers
+# in the same direction (up, down, left, right, or diagonally)
+# in the 20×20 grid?
+# 
+# Explaination
+# We are getting four different types of product:
+# vertical, horizontal and two different diagonals:
+# one starts from left top, second is from right top/
+# Cycling through entire grid and getting products
+# for all posible combinations of numbers.
+# Next, getting maximum for this type of direction.
+# After getting four different maximums,
+# getting maximum between them.
+
 grid = [
   [8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
   [49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0],
@@ -21,44 +38,51 @@ grid = [
   [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ]
 
-def largest_product_vertical(n):
+def largest_product_vertical(grid):
   max = 0
-  for i in range(len(n[1])):
-    for j in range(len(n) - 3):
-      multiply = n[j][i] * n[j + 1][i] * n[j + 2][i] * n[j + 3][i]
+  for i in range(len(grid[1])):
+    for j in range(len(grid) - 3):
+      # Multiplying four items, one is on the same position
+      # on the next row
+      multiply = grid[j][i] * grid[j + 1][i] * grid[j + 2][i] * grid[j + 3][i]
       max = multiply if multiply > max else max
   return max
 
-def largest_product_horizontal(n):
+def largest_product_horizontal(grid):
   max = 0
-  for i in range(len(n)):
-    for j in range(len(n[1]) - 3):
-      multiply = n[i][j] * n[i][j + 1] * n[i][j + 2] * n[i][j + 3]
+  for i in range(len(grid)):
+    for j in range(len(grid[1]) - 3):
+      # Multiplying four items, one is next in row
+      multiply = grid[i][j] * grid[i][j + 1] * grid[i][j + 2] * grid[i][j + 3]
       max = multiply if multiply > max else max
   return max
 
-def largest_product_diagonal_lr(n):
+def largest_product_diagonal_lt(grid):
   max = 0
-  for i in range(len(n) - 3):
-    for j in range(len(n[1]) - 3):
-      multiply = n[j][i] * n[j + 1][i + 1] * n[j + 2][i + 2] * n[j + 3][i + 3]
+  for i in range(len(grid) - 3):
+    for j in range(len(grid[1]) - 3):
+      # Multiplying four items, one is on the next row
+      # and next position in row
+      multiply = grid[j][i] * grid[j + 1][i + 1] * grid[j + 2][i + 2] * grid[j + 3][i + 3]
       max = multiply if multiply > max else max
   return max
 
-def largest_product_diagonal_rl(n):
+def largest_product_diagonal_rt(grid):
   max = 0
-  for i in range(1, len(n) - 2):
-    for j in range(len(n[1]) - 3):
-      multiply = n[j][-i] * n[j + 1][-i - 1] * n[j + 2][-i - 2] * n[j + 3][-i - 3]
+  for i in range(1, len(grid) - 2):
+    for j in range(len(grid[1]) - 3):
+      # Multiplying four items, one in on the next row
+      # and on previous position in row
+      multiply = grid[j][-i] * grid[j + 1][-i - 1] * grid[j + 2][-i - 2] * grid[j + 3][-i - 3]
       max = multiply if multiply > max else max
   return max
 
 
-def largest_product_in_a_grid(n):
-  vertical_max = largest_product_vertical(n)
-  horizontal_max = largest_product_horizontal(n)
-  diagonal_lr_max = largest_product_diagonal_lr(n)
-  diagonal_rl_max = largest_product_diagonal_rl(n)
-  return max(vertical_max, horizontal_max, diagonal_lr_max, diagonal_rl_max)
+def largest_product_in_a_grid(grid):
+  vertical_max = largest_product_vertical(grid)
+  horizontal_max = largest_product_horizontal(grid)
+  diagonal_lt_max = largest_product_diagonal_lt(grid)
+  diagonal_rt_max = largest_product_diagonal_rt(grid)
+  return max(vertical_max, horizontal_max, diagonal_lt_max, diagonal_rt_max)
 
 print(largest_product_in_a_grid(grid))
