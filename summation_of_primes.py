@@ -23,5 +23,5 @@ def summation_of_primes(range_number):
 # Check
 
 
-print(summation_of_primes(10))
+print(summation_of_primes(10))`
 print(summation_of_primes(2000000))
